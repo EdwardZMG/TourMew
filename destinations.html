@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>目的地 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2D4A3E; --secondary: #8B9A7D; --accent: #D4A574; --light: #F8F6F3; --dark: #1A1A1A; --text: #3D3D3D; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; color: var(--text); background: var(--light); line-height: 1.8; }
+        
+        nav { position: fixed; top: 0; left: 0; right: 0; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(248,246,243,0.95); backdrop-filter: blur(20px); z-index: 1000; }
+        .logo { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--primary); }
+        
+        .hero { padding: 12rem 5% 4rem; background: linear-gradient(135deg, var(--primary) 0%, #1a2f28 100%); color: white; text-align: center; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 2.8rem; margin-bottom: 1rem; }
+        
+        .container { padding: 3rem 5%; max-width: 1200px; margin: 0 auto; }
+        
+        .section-title { font-family: 'Noto Serif SC', serif; font-size: 1.8rem; color: var(--primary); margin-bottom: 2rem; text-align: center; }
+        
+        .dest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
+        .dest-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.3s; }
+        .dest-card:hover { transform: translateY(-8px); }
+        .dest-img { height: 220px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
+        .dest-img.asia { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
+        .dest-img.europe { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
+        .dest-img.america { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+        .dest-badge { position: absolute; top: 15px; left: 15px; background: var(--primary); color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; }
+        .dest-info { padding: 1.5rem; }
+        .dest-info h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.3rem; }
+        .dest-info p { color: var(--text); font-size: 0.95rem; margin-bottom: 1rem; }
+        .dest-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+        .dest-tag { background: var(--light); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; color: var(--secondary); }
+        .dest-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; border-top: 1px solid #eee; }
+        .dest-price { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+        .dest-btn { background: var(--accent); color: white; border: none; padding: 0.6rem 1.5rem; border-radius: 25px; cursor: pointer; font-weight: 500; text-decoration: none; }
+        
+        .why-section { background: white; border-radius: 20px; padding: 2rem; margin-top: 3rem; }
+        .why-section h3 { color: var(--primary); margin-bottom: 1.5rem; }
+        .why-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+        .why-item { padding: 1.5rem; background: var(--light); border-radius: 12px; }
+        .why-item h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        
+        footer { background: var(--dark); color: white; padding: 3rem 5%; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+            <li><a href="insurance.html">保险指南</a></li>
+            <li><a href="accommodation.html">住宿推荐</a></li>
+            <li><a href="language.html">语言助手</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hero">
+        <h1>🗺️ 目的地攻略</h1>
+        <p>精选独行女性友好目的地，开启你的第一次独自旅行</p>
+    </div>
+    
+    <div class="container">
+        <h2 class="section-title">热门目的地</h2>
+        
+        <div class="dest-grid">
+            <div class="dest-card">
+                <div class="dest-img asia"><span class="dest-badge">亚洲首选</span>🗼</div>
+                <div class="dest-info">
+                    <h3>日本·东京</h3>
+                    <p>安全系数世界前列，交通便利，独自旅行氛围极佳。适合第一次出国的独行新手。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">安全系数高</span>
+                        <span class="dest-tag">交通便利</span>
+                        <span class="dest-tag">美食天堂</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥4000起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dest-card">
+                <div class="dest-img asia"><span class="dest-badge">性价比王</span>🏝️</div>
+                <div class="dest-info">
+                    <h3>泰国·清迈</h3>
+                    <p>物价亲民、节奏悠闲、泰式微笑温暖身心。邓丽君最爱的小城，非常适合慢旅行。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">物价低</span>
+                        <span class="dest-tag">节奏慢</span>
+                        <span class="dest-tag">按摩天堂</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥2500起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dest-card">
+                <div class="dest-img europe"><span class="dest-badge">文艺之旅</span>🗽</div>
+                <div class="dest-info">
+                    <h3>美国·纽约</h3>
+                    <p>多元文化的熔炉，精彩纷呈的终极都市目的地。适合渴望冒险的独行侠。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">都市冒险</span>
+                        <span class="dest-tag">艺术殿堂</span>
+                        <span class="dest-tag">购物天堂</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥8000起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dest-card">
+                <div class="dest-img europe"><span class="dest-badge">浪漫之都</span>🎡</div>
+                <div class="dest-info">
+                    <h3>法国·巴黎</h3>
+                    <p>浪漫与时尚的代名词，一个人逛博物馆、喝咖啡、漫步塞纳河畔，别有一番风味。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">浪漫</span>
+                        <span class="dest-tag">艺术</span>
+                        <span class="dest-tag">时尚</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥6000起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dest-card">
+                <div class="dest-img asia"><span class="dest-badge">亲子之选</span>🌸</div>
+                <div class="dest-info">
+                    <h3>日本·京都</h3>
+                    <p>古都韵味、寺庙神社、祇园艺伎。适合喜欢历史文化、追求内心平静的旅行者。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">古都</span>
+                        <span class="dest-tag">文化</span>
+                        <span class="dest-tag">寺庙</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥4500起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dest-card">
+                <div class="dest-img america"><span class="dest-badge">海岛度假</span>🏖️</div>
+                <div class="dest-info">
+                    <h3>印尼·巴厘岛</h3>
+                    <p>梯田、火山、海滩、庙宇。瑜伽灵修胜地，适合想放松身心、寻找自我的你。</p>
+                    <div class="dest-tags">
+                        <span class="dest-tag">海岛</span>
+                        <span class="dest-tag">瑜伽</span>
+                        <span class="dest-tag">自然</span>
+                    </div>
+                    <div class="dest-meta">
+                        <div class="dest-price">¥3500起</div>
+                        <a href="#" class="dest-btn">查看攻略</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="why-section">
+            <h3>为什么这些地方适合独行？</h3>
+            <div class="why-grid">
+                <div class="why-item">
+                    <h4>🛡️ 安全系数高</h4>
+                    <p>治安良好，旅游基础设施完善，紧急求助渠道畅通</p>
+                </div>
+                <div class="why-item">
+                    <h4>🚇 交通便利</h4>
+                    <p>公共交通发达，地铁/轻轨覆盖主要景区</p>
+                </div>
+                <div class="why-item">
+                    <h4>💬 英语通行</h4>
+                    <p>旅游业发达，英语普及率高，沟通无障碍</p>
+                </div>
+                <div class="why-item">
+                    <h4>👩 女性友好</h4>
+                    <p>对独行女性普遍友好，不会感到不便或被歧视</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+</body>
+</html>

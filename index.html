@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4A3E;
+            --secondary: #8B9A7D;
+            --accent: #D4A574;
+            --light: #F8F6F3;
+            --dark: #1A1A1A;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(248, 246, 243, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+        nav.scrolled { padding: 1rem 5%; box-shadow: 0 2px 30px rgba(0,0,0,0.05); }
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            background: linear-gradient(135deg, var(--primary) 0%, #1a2f28 100%);
+        }
+        .hero-content { max-width: 800px; color: white; z-index: 1; }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .hero h1 span { color: var(--accent); }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2.5rem;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+        .btn-primary:hover { background: #c4956a; transform: translateY(-3px); }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        .btn-secondary:hover { background: white; color: var(--primary); }
+        
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            opacity: 0.7;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        
+        /* 章节通用 */
+        section { padding: 5rem 5%; }
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            margin-bottom: 3rem;
+        }
+        
+        /* 特色功能 */
+        .features { background: white; }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 20px;
+            background: var(--light);
+            transition: all 0.3s;
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        .feature-card p { color: var(--text-light); font-size: 0.95rem; }
+        
+        /* 目的地预览 */
+        .destinations { background: var(--light); }
+        .dest-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .dest-card {
+            border-radius: 20px;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+        .dest-card:hover { transform: translateY(-5px); }
+        .dest-img {
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+        }
+        .dest-info { padding: 1.5rem; }
+        .dest-info h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .dest-info p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
+        .dest-tag {
+            display: inline-block;
+            background: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--secondary);
+        }
+        
+        /* 用户心声 */
+        .testimonials { background: var(--primary); color: white; }
+        .testimonials .section-title { color: white; }
+        .testimonials .section-subtitle { color: rgba(255,255,255,0.7); }
+        .testi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .testi-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 16px;
+        }
+        .testi-card .avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .testi-card p { opacity: 0.9; margin-bottom: 1rem; font-style: italic; }
+        .testi-card .name { color: var(--accent); font-weight: 600; }
+        
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--accent), #c4956a);
+            text-align: center;
+            color: white;
+        }
+        .cta h2 { font-family: 'Noto Serif SC', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+        .cta p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 2rem; }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+        }
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        .footer-col h4 { color: var(--accent); margin-bottom: 1rem; }
+        .footer-col a {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            padding: 0.3rem 0;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: white; }
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+            <li><a href="insurance.html">保险指南</a></li>
+            <li><a href="accommodation.html">住宿推荐</a></li>
+        </ul>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>一个人旅行，<br>也可以<span>很精彩</span></h1>
+            <p>专为独立女性打造的旅行平台。安全指南、行程规划、预算工具，让你的独旅之路更从容</p>
+            <div class="hero-buttons">
+                <a href="destinations.html" class="btn btn-primary">开始探索</a>
+                <a href="checklist.html" class="btn btn-secondary">出行清单</a>
+            </div>
+        </div>
+        <div class="scroll-hint">↓ 向下滚动</div>
+    </section>
+    
+    <section class="features">
+        <h2 class="section-title">你的独行神器</h2>
+        <p class="section-subtitle">从准备到出发，我们帮你考虑周全</p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>安全中心</h3>
+                <p>独行安全指南、紧急联系人、使领馆信息，为你的旅行保驾护航</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>出行清单</h3>
+                <p>交互式清单，勾选保存，再也不怕遗漏重要物品</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💰</div>
+                <h3>预算工具</h3>
+                <p>输入行程参数，自动计算总预算，合理规划每一分钱</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>保险指南</h3>
+                <p>精选旅行保险方案，覆盖医疗、行程、财物各类风险</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏨</div>
+                <h3>住宿推荐</h3>
+                <p>女性独行友好住宿推荐，安全舒适又性价比高</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🗣️</div>
+                <h3>语言助手</h3>
+                <p>常用旅行短语随身带，沟通无障碍</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="destinations">
+        <h2 class="section-title">热门目的地</h2>
+        <p class="section-subtitle">这些地方，非常适合一个人出发</p>
+        
+        <div class="dest-grid">
+            <div class="dest-card">
+                <div class="dest-img">🗼</div>
+                <div class="dest-info">
+                    <h3>日本·东京</h3>
+                    <p>安全系数高、交通便利、独自旅行氛围好</p>
+                    <span class="dest-tag">亚洲首选</span>
+                </div>
+            </div>
+            <div class="dest-card">
+                <div class="dest-img">🏝️</div>
+                <div class="dest-info">
+                    <h3>泰国·清迈</h3>
+                    <p>物价亲民、节奏悠闲、泰式微笑温暖</p>
+                    <span class="dest-tag">休闲度假</span>
+                </div>
+            </div>
+            <div class="dest-card">
+                <div class="dest-img">🗽</div>
+                <div class="dest-info">
+                    <h3>美国·纽约</h3>
+                    <p>多元文化、精彩纷呈、独自探索的终极目的地</p>
+                    <span class="dest-tag">都市冒险</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="testimonials">
+        <h2 class="section-title">用户心声</h2>
+        <p class="section-subtitle">来自独行姐妹的真实分享</p>
+        
+        <div class="testi-grid">
+            <div class="testi-card">
+                <div class="avatar">S</div>
+                <p>"第一次独自出国选择了日本，行前看了安全中心的指南，安心很多。住宿推荐也很棒，一个人住也很安全！"</p>
+                <span class="name">Sarah，28岁</span>
+            </div>
+            <div class="testi-card">
+                <div class="avatar">M</div>
+                <p>"出行清单真的救了我！每次出发前勾选一遍，再也不怕忘带东西了。预算工具也很实用，精准控制开支。"</p>
+                <span class="name">Mia，32岁</span>
+            </div>
+            <div class="testi-card">
+                <div class="avatar">L</div>
+                <p>"保险指南帮我选到了性价比超高的保险，出国旅行最重要的就是安心。途喵真的很懂我们独行女性的需求。"</p>
+                <span class="name">Lily，35岁</span>
+            </div>
+        </div>
+    </section>
+    
+    <section class="cta">
+        <h2>准备好出发了吗？</h2>
+        <p>用这份清单和工具，开始你的第一次独旅吧</p>
+        <a href="checklist.html" class="btn btn-primary" style="background: white; color: var(--accent);">查看出行清单</a>
+    </section>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h4>途喵-独行侠</h4>
+                <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">专为独立女性打造的旅行平台，让每一个渴望出发的你，都能安全、从容地踏上旅途。</p>
+            </div>
+            <div class="footer-col">
+                <h4>快速导航</h4>
+                <a href="destinations.html">目的地</a>
+                <a href="planner.html">行程规划</a>
+                <a href="safety.html">安全中心</a>
+                <a href="checklist.html">出行清单</a>
+            </div>
+            <div class="footer-col">
+                <h4>实用工具</h4>
+                <a href="budget.html">预算工具</a>
+                <a href="insurance.html">保险指南</a>
+                <a href="accommodation.html">住宿推荐</a>
+                <a href="language.html">语言助手</a>
+            </div>
+            <div class="footer-col">
+                <h4>关注我们</h4>
+                <a href="#">小红书</a>
+                <a href="#">微信公众号</a>
+                <a href="#">微博</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        // 导航滚动效果
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>

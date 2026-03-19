@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行程规划 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2D4A3E; --secondary: #8B9A7D; --accent: #D4A574; --light: #F8F6F3; --dark: #1A1A1A; --text: #3D3D3D; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; color: var(--text); background: var(--light); line-height: 1.8; }
+        
+        nav { position: fixed; top: 0; left: 0; right: 0; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(248,246,243,0.95); backdrop-filter: blur(20px); z-index: 1000; }
+        .logo { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--primary); }
+        
+        .hero { padding: 12rem 5% 3rem; background: linear-gradient(135deg, var(--primary) 0%, #1a2f28 100%); color: white; text-align: center; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 2.8rem; margin-bottom: 1rem; }
+        
+        .container { padding: 3rem 5%; max-width: 900px; margin: 0 auto; }
+        
+        .planner-card { background: white; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 40px rgba(0,0,0,0.08); }
+        
+        .form-section { margin-bottom: 2rem; }
+        .form-section h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.2rem; }
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem 1rem; border: 2px solid #eee; border-radius: 10px; font-size: 1rem; }
+        .form-group input:focus { outline: none; border-color: var(--accent); }
+        
+        .days-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+        .day-card { background: var(--light); padding: 1.5rem; border-radius: 12px; text-align: center; cursor: pointer; transition: all 0.3s; border: 2px solid transparent; }
+        .day-card:hover, .day-card.active { border-color: var(--accent); background: #fff9f0; }
+        .day-card .num { font-size: 2rem; font-weight: 700; color: var(--primary); }
+        .day-card .label { font-size: 0.9rem; color: var(--text-light); }
+        
+        .activities-list { margin-top: 1rem; }
+        .activity-item { display: flex; gap: 1rem; padding: 1rem; background: var(--light); border-radius: 10px; margin-bottom: 0.8rem; align-items: center; }
+        .activity-time { font-weight: 600; color: var(--accent); min-width: 80px; }
+        .activity-content { flex: 1; }
+        .activity-content h4 { color: var(--primary); margin-bottom: 0.2rem; }
+        .activity-content p { font-size: 0.9rem; color: var(--text-light); }
+        
+        .btn-save { width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 1rem; }
+        .btn-save:hover { background: #1a2f28; }
+        
+        footer { background: var(--dark); color: white; padding: 3rem 5%; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+            <li><a href="insurance.html">保险指南</a></li>
+            <li><a href="accommodation.html">住宿推荐</a></li>
+            <li><a href="language.html">语言助手</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hero">
+        <h1>📅 行程规划</h1>
+        <p>打造专属你的独旅行程</p>
+    </div>
+    
+    <div class="container">
+        <div class="planner-card">
+            <div class="form-section">
+                <h3>基本信息</h3>
+                <div class="form-group">
+                    <label>目的地</label>
+                    <input type="text" id="destination" placeholder="如：日本·东京">
+                </div>
+                <div class="form-group">
+                    <label>出发日期</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label>旅行天数</label>
+                    <select id="days" onchange="renderDays()">
+                        <option value="3">3天</option>
+                        <option value="5" selected>5天</option>
+                        <option value="7">7天</option>
+                        <option value="10">10天</option>
+                        <option value="14">14天</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3>选择编辑的天数</h3>
+                <div class="days-grid" id="daysGrid"></div>
+            </div>
+            
+            <div class="form-section">
+                <h3>当日行程安排</h3>
+                <div class="form-group">
+                    <label>上午安排</label>
+                    <input type="text" id="morning" placeholder="如：浅草寺游览">
+                </div>
+                <div class="form-group">
+                    <label>下午安排</label>
+                    <input type="text" id="afternoon" placeholder="如：秋叶原购物">
+                </div>
+                <div class="form-group">
+                    <label>晚上安排</label>
+                    <input type="text" id="evening" placeholder="如：新宿夜景">
+                </div>
+                <button class="btn-save" onclick="addActivity()">➕ 添加当日行程</button>
+            </div>
+            
+            <div class="form-section" id="itinerary">
+                <h3>已安排的行程</h3>
+                <div class="activities-list" id="activitiesList">
+                    <p style="color: var(--text-light); text-align: center;">暂无行程安排</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        let currentDay = 1;
+        let itinerary = {};
+        
+        function renderDays() {
+            const days = parseInt(document.getElementById('days').value);
+            const grid = document.getElementById('daysGrid');
+            grid.innerHTML = '';
+            for (let i = 1; i <= days; i++) {
+                grid.innerHTML += `<div class="day-card ${i === currentDay ? 'active' : ''}" onclick="selectDay(${i})">
+                    <div class="num">Day ${i}</div>
+                    <div class="label">第${i}天</div>
+                </div>`;
+            }
+        }
+        
+        function selectDay(day) {
+            currentDay = day;
+            document.querySelectorAll('.day-card').forEach((card, idx) => {
+                card.classList.toggle('active', idx + 1 === day);
+            });
+        }
+        
+        function addActivity() {
+            const morning = document.getElementById('morning').value;
+            const afternoon = document.getElementById('afternoon').value;
+            const evening = document.getElementById('evening').value;
+            
+            if (!itinerary[currentDay]) itinerary[currentDay] = [];
+            if (morning) itinerary[currentDay].push({ time: '上午', title: morning });
+            if (afternoon) itinerary[currentDay].push({ time: '下午', title: afternoon });
+            if (evening) itinerary[currentDay].push({ time: '晚上', title: evening });
+            
+            renderItinerary();
+            // 清空输入
+            document.getElementById('morning').value = '';
+            document.getElementById('afternoon').value = '';
+            document.getElementById('evening').value = '';
+        }
+        
+        function renderItinerary() {
+            const list = document.getElementById('activitiesList');
+            let html = '';
+            for (const [day, activities] of Object.entries(itinerary)) {
+                if (activities.length > 0) {
+                    html += `<h4 style="color: var(--primary); margin: 1rem 0 0.5rem;">Day ${day}</h4>`;
+                    activities.forEach(act => {
+                        html += `<div class="activity-item">
+                            <div class="activity-time">${act.time}</div>
+                            <div class="activity-content"><h4>${act.title}</h4></div>
+                        </div>`;
+                    });
+                }
+            }
+            list.innerHTML = html || '<p style="color: var(--text-light); text-align: center;">暂无行程安排</p>';
+        }
+        
+        renderDays();
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅行故事 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #2D4A3E; --secondary: #8B9A7D; --accent: #D4A574; --light: #F8F6F3; --dark: #1A1A1A; --text: #3D3D3D; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans SC', sans-serif; color: var(--text); background: var(--light); line-height: 1.8; }
+        
+        nav { position: fixed; top: 0; left: 0; right: 0; padding: 1.5rem 5%; display: flex; justify-content: space-between; align-items: center; background: rgba(248,246,243,0.95); backdrop-filter: blur(20px); z-index: 1000; }
+        .logo { font-family: 'Noto Serif SC', serif; font-size: 1.5rem; font-weight: 700; color: var(--primary); text-decoration: none; }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a { color: var(--text); text-decoration: none; font-size: 0.9rem; font-weight: 500; }
+        .nav-links a:hover { color: var(--primary); }
+        
+        .hero { padding: 12rem 5% 3rem; background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%); color: white; text-align: center; }
+        .hero h1 { font-family: 'Noto Serif SC', serif; font-size: 2.8rem; margin-bottom: 1rem; }
+        
+        .container { padding: 3rem 5%; max-width: 1000px; margin: 0 auto; }
+        
+        .article-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+        .article-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.3s; }
+        .article-card:hover { transform: translateY(-5px); }
+        .article-img { height: 200px; background: linear-gradient(135deg, var(--secondary), var(--primary)); display: flex; align-items: center; justify-content: center; font-size: 4rem; }
+        .article-content { padding: 1.5rem; }
+        .article-content h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .article-meta { color: var(--text-light); font-size: 0.85rem; margin-bottom: 1rem; }
+        .article-excerpt { color: var(--text); font-size: 0.95rem; margin-bottom: 1rem; }
+        .article-link { color: var(--accent); text-decoration: none; font-weight: 500; }
+        
+        footer { background: var(--dark); color: white; padding: 3rem 5%; text-align: center; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+            <li><a href="insurance.html">保险指南</a></li>
+            <li><a href="accommodation.html">住宿推荐</a></li>
+            <li><a href="language.html">语言助手</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hero">
+        <h1>📖 旅行故事</h1>
+        <p>来自独行姐妹的真实分享</p>
+    </div>
+    
+    <div class="container">
+        <div class="article-grid">
+            <div class="article-card">
+                <div class="article-img">🌸</div>
+                <div class="article-content">
+                    <h3>第一次独自出国，我选择了日本</h3>
+                    <div class="article-meta">2026年1月 · 日本·东京</div>
+                    <p class="article-excerpt">从办签证到独自踏出第一步，这段旅程让我学会了与自己独处，也发现了更大的世界...</p>
+                    <a href="#" class="article-link">阅读全文 →</a>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-img">🏝️</div>
+                <div class="article-content">
+                    <h3>清迈七天：慢节奏才是真正的旅行</h3>
+                    <div class="article-meta">2025年12月 · 泰国·清迈</div>
+                    <p class="article-excerpt">没有赶时间的行程，每天睡到自然醒，去逛早市、做SPA，喝咖啡，这才是我想要的旅行...</p>
+                    <a href="#" class="article-link">阅读全文 →</a>
+                </div>
+            </div>
+            
+            <div class="article-card">
+                <div class="article-img">🗽</div>
+                <div class="article-content">
+                    <h3>独行纽约十五天：冒险者的天堂</h3>
+                    <div class="article-meta">2025年11月 · 美国·纽约</div>
+                    <p class="article-excerpt">这座城市永远不会让你无聊一个人走在时代广场，看一场百老汇，登上自由女神岛...</p>
+                    <a href="#" class="article-link">阅读全文 →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+</body>
+</html>

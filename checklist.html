@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出行清单 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4A3E;
+            --secondary: #8B9A7D;
+            --accent: #D4A574;
+            --light: #F8F6F3;
+            --dark: #1A1A1A;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+            --checked: #27AE60;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+            padding-bottom: 4rem;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(248, 246, 243, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Hero */
+        .checklist-hero {
+            padding: 12rem 5% 3rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            text-align: center;
+        }
+        .checklist-hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 主内容 */
+        .container { padding: 3rem 5%; max-width: 900px; margin: 0 auto; }
+        
+        /* 进度条 */
+        .progress-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .progress-bar {
+            height: 12px;
+            background: #eee;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--checked));
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+        .progress-text {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        /* 清单分类 */
+        .category {
+            background: white;
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .category-header {
+            background: var(--primary);
+            color: white;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+        }
+        .category-header h3 { font-size: 1.1rem; }
+        .category-header span { font-size: 0.9rem; opacity: 0.8; }
+        
+        .category-items { padding: 0; }
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #f0f0f0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .checklist-item:hover { background: #fafafa; }
+        .checklist-item:last-child { border-bottom: none; }
+        
+        .checkbox {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--secondary);
+            border-radius: 6px;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+        .checklist-item.checked .checkbox {
+            background: var(--checked);
+            border-color: var(--checked);
+        }
+        .checklist-item.checked .checkbox::after {
+            content: "✓";
+            color: white;
+            font-size: 14px;
+        }
+        .checklist-item.checked .item-text {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+        .item-text { flex: 1; }
+        
+        /* 底部操作 */
+        .action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        .btn-reset {
+            background: #f0f0f0;
+            color: var(--text);
+        }
+        .btn-save {
+            background: var(--primary);
+            color: white;
+        }
+        .btn:hover { transform: scale(1.05); }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-bottom: 70px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+        </ul>
+    </nav>
+    
+    <div class="checklist-hero">
+        <h1>📝 出行清单</h1>
+        <p>勾选每一项，让旅行准备更从容</p>
+    </div>
+    
+    <div class="container">
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text">已完成 <span id="checkedCount">0</span> / <span id="totalCount">0</span> 项</div>
+        </div>
+        
+        <!-- 证件类 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>📄 证件类</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">护照（有效期6个月以上）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">签证/签注</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">身份证</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">驾照（如需租车）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">护照复印件（份）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">电子机票/行程单</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">酒店预订单</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">旅行保险单</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">信用卡（开通境外支付）</span></div>
+            </div>
+        </div>
+        
+        <!-- 财务类 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>💰 财务类</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">现金（当地货币）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">借记卡/信用卡</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">移动支付（支付宝/微信）已开通境外</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">零钱包/硬币袋</span></div>
+            </div>
+        </div>
+        
+        <!-- 电子设备 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>📱 电子设备</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">手机 + 充电器</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">充电宝（符合航空标准）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">耳机</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">相机（如有）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">转换插头</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">各国电压知识了解</span></div>
+            </div>
+        </div>
+        
+        <!-- 衣物类 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>👗 衣物类</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">内衣裤（根据天数+1）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">袜子</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">睡衣</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">舒适步行鞋</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">拖鞋/凉鞋</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">外套（应对温差）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">防晒衣/帽子</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">泳装（如有水上活动）</span></div>
+            </div>
+        </div>
+        
+        <!-- 洗漱用品 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>🧴 洗漱用品</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">牙刷 + 牙膏</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">洗发水/护发素（小包装）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">沐浴露/洗面奶</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">护肤品（防晒霜必备）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">化妆品</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">梳子/发圈</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">毛巾/干发巾</span></div>
+            </div>
+        </div>
+        
+        <!-- 药品健康 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>💊 药品健康</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">常用药（感冒药、止痛药）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">肠胃药</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">创可贴/消毒棉片</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">防蚊虫叮咬药</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">个人常用处方药（带处方）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">维生素</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">免洗洗手液</span></div>
+            </div>
+        </div>
+        
+        <!-- 安全用品 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>🔐 安全用品</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">门阻报警器</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">便携锁（行李锁/酒店门锁）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">防盗腰包/隐形钱包</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">哨子（防身用）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">手电筒</span></div>
+            </div>
+        </div>
+        
+        <!-- 其他 -->
+        <div class="category">
+            <div class="category-header">
+                <h3>🎒 其他</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">折叠伞/晴雨两用伞</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">行李箱/背包</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">折叠水杯</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">眼罩 + 耳塞</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">U型枕</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">纸巾/湿巾</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">垃圾袋</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">笔记本/笔</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">书籍/电子阅读器</span></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="action-bar">
+        <button class="btn btn-reset" onclick="resetAll()">🔄 重置清单</button>
+        <button class="btn btn-save" onclick="saveList()">💾 保存进度</button>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            updateProgress();
+        });
+        
+        function toggle(element) {
+            element.classList.toggle('checked');
+            updateProgress();
+            saveToLocal();
+        }
+        
+        function updateProgress() {
+            const allItems = document.querySelectorAll('.checklist-item');
+            const checkedItems = document.querySelectorAll('.checklist-item.checked');
+            
+            document.getElementById('totalCount').textContent = allItems.length;
+            document.getElementById('checkedCount').textContent = checkedItems.length;
+            
+            const percent = allItems.length ? (checkedItems.length / allItems.length * 100) : 0;
+            document.getElementById('progressFill').style.width = percent + '%';
+            
+            // 更新每个分类的进度
+            document.querySelectorAll('.category').forEach(cat => {
+                const items = cat.querySelectorAll('.checklist-item');
+                const checked = cat.querySelectorAll('.checklist-item.checked').length;
+                cat.querySelector('.category-progress').textContent = `${checked}/${items.length}`;
+            });
+        }
+        
+        function saveToLocal() {
+            const data = {};
+            document.querySelectorAll('.checklist-item').forEach((item, index) => {
+                data[index] = item.classList.contains('checked');
+            });
+            localStorage.setItem('tumiao_checklist', JSON.stringify(data));
+        }
+        
+        function loadProgress() {
+            const saved = localStorage.getItem('tumiao_checklist');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.querySelectorAll('.checklist-item').forEach((item, index) => {
+                    if (data[index]) item.classList.add('checked');
+                });
+            }
+        }
+        
+        function saveList() {
+            alert('✅ 进度已保存！下次打开会自动恢复');
+        }
+        
+        function resetAll() {
+            if (confirm('确定要重置所有选项吗？')) {
+                document.querySelectorAll('.checklist-item').forEach(item => {
+                    item.classList.remove('checked');
+                });
+                localStorage.removeItem('tumiao_checklist');
+                updateProgress();
+            }
+        }
+    </script>
+</body>
+</html>

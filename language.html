@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>语言助手 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4A3E;
+            --secondary: #8B9A7D;
+            --accent: #D4A574;
+            --light: #F8F6F3;
+            --dark: #1A1A1A;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+            padding-bottom: 2rem;
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(248, 246, 243, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        .hero {
+            padding: 12rem 5% 3rem;
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        .container { padding: 3rem 5%; max-width: 1000px; margin: 0 auto; }
+        
+        /* 语言选择 */
+        .lang-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .lang-tab {
+            padding: 0.8rem 2rem;
+            border-radius: 30px;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .lang-tab:hover, .lang-tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* 短语分类 */
+        .category-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .category-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        /* 短语卡片 */
+        .phrase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .phrase-card {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .phrase-card:hover {
+            background: #f0ebe5;
+            transform: translateX(5px);
+        }
+        .phrase-chinese {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .phrase-foreign {
+            color: var(--primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+        .phrase-pronounce {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+        
+        /* 发音播放 */
+        .play-btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+        
+        /* 常用语 */
+        .quick-phrases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+        .quick-btn {
+            background: white;
+            border: 1px solid var(--secondary);
+            color: var(--primary);
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        .quick-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* 搜索 */
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid #eee;
+            border-radius: 30px;
+            font-size: 1rem;
+        }
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        .search-box button {
+            padding: 1rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        /* 实用技巧 */
+        .tips-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        .tips-section h3 { color: var(--primary); margin-bottom: 1rem; }
+        .tips-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .tip-item {
+            display: flex;
+            gap: 0.8rem;
+            align-items: flex-start;
+        }
+        .tip-item span { color: var(--accent); font-size: 1.2rem; }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        /* 隐藏/显示语言 */
+        .lang-content { display: none; }
+        .lang-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+            <li><a href="insurance.html">保险指南</a></li>
+            <li><a href="accommodation.html">住宿推荐</a></li>
+            <li><a href="language.html">语言助手</a></li>
+        </ul>
+    </nav>
+    
+    <div class="hero">
+        <h1>🗣️ 语言助手</h1>
+        <p>常用旅行短语随身带，沟通无障碍</p>
+    </div>
+    
+    <div class="container">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索中文或外文短语..." onkeyup="searchPhrases()">
+            <button>🔍 搜索</button>
+        </div>
+        
+        <div class="lang-tabs">
+            <button class="lang-tab active" onclick="showLang('japanese')">日语</button>
+            <button class="lang-tab" onclick="showLang('thai')">泰语</button>
+            <button class="lang-tab" onclick="showLang('english')">英语</button>
+            <button class="lang-tab" onclick="showLang('korean')">韩语</button>
+        </div>
+        
+        <!-- 日语 -->
+        <div class="lang-content active" id="japanese">
+            <div class="category-section">
+                <h3 class="category-title">🗾 基本交流</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">你好</div>
+                        <div class="phrase-foreign">こんにちは <button class="play-btn" onclick="speak('konnichiwa')">🔊</button></div>
+                        <div class="phrase-pronounce">康尼其哇</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">谢谢</div>
+                        <div class="phrase-foreign">ありがとうございます <button class="play-btn" onclick="speak('arigatou gozaimasu')">🔊</button></div>
+                        <div class="phrase-pronounce">阿里嘎多郭扎伊马斯</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">对不起</div>
+                        <div class="phrase-foreign">すみません <button class="play-btn" onclick="speak('sumimasen')">🔊</button></div>
+                        <div class="phrase-pronounce">思密马森</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">没关系/不客气</div>
+                        <div class="phrase-foreign">どういたしまして <button class="play-btn" onclick="speak('dou itashimashite')">🔊</button></div>
+                        <div class="phrase-pronounce">多伊塔西马西特</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">是/不是</div>
+                        <div class="phrase-foreign">はい / いいえ</div>
+                        <div class="phrase-pronounce">嗨 / 伊伊哎</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">请问...</div>
+                        <div class="phrase-foreign">すみません、～ <button class="play-btn" onclick="speak('sumimasen')">🔊</button></div>
+                        <div class="phrase-pronounce">思密马森...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🛒 购物场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">这个多少钱？</div>
+                        <div class="phrase-foreign">これはいくらですか？</div>
+                        <div class="phrase-pronounce">扣哇伊库拉得斯卡</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">请给我这个</div>
+                        <div class="phrase-foreign">これをください</div>
+                        <div class="phrase-pronounce">扣哦库udasai</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">可以便宜点吗？</div>
+                        <div class="phrase-foreign">やすくなりますか？</div>
+                        <div class="phrase-pronounce">雅库哭那里斯卡</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">我只需要看看</div>
+                        <div class="phrase-foreign">見るだけです</div>
+                        <div class="phrase-pronounce">米鲁达kei斯</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🗺️ 问路场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">车站在哪里？</div>
+                        <div class="phrase-foreign">駅はどこですか？</div>
+                        <div class="phrase-pronounce">哎ki哇多扣得斯卡</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">请带我去...</div>
+                        <div class="phrase-foreign">～につれて行ってください</div>
+                        <div class="phrase-pronounce">...尼_tsurete itte kudasai</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">洗手间在哪里？</div>
+                        <div class="phrase-foreign">トイレはどこですか？</div>
+                        <div class="phrase-pronounce">偷rei哇多扣得斯卡</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🍽️ 餐饮场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">请给我菜单</div>
+                        <div class="phrase-foreign">メニューをください</div>
+                        <div class="phrase-pronounce">menu哦库dasai</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">好吃！</div>
+                        <div class="phrase-foreign">おいしい！</div>
+                        <div class="phrase-pronounce">伊Oi西</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">买单</div>
+                        <div class="phrase-foreign">お会計お願いします</div>
+                        <div class="phrase-pronounce">哦kai_kei_onegaishimas</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🏥 紧急情况</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">请帮帮我！</div>
+                        <div class="phrase-foreign">助けて！</div>
+                        <div class="phrase-pronounce">塔苏ke特</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">我叫救护车</div>
+                        <div class="phrase-foreign">救急車を呼んでください</div>
+                        <div class="phrase-pronounce">kyu_kyu_shawo yonde kudasai</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">我不舒服</div>
+                        <div class="phrase-foreign">気分が悪いです</div>
+                        <div class="phrase-pronounce">ki_bu-nga warui des</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 泰语 -->
+        <div class="lang-content" id="thai">
+            <div class="category-section">
+                <h3 class="category-title">🗾 基本交流</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">你好</div>
+                        <div class="phrase-foreign">สวัสดี</div>
+                        <div class="phrase-pronounce">萨瓦迪</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">谢谢</div>
+                        <div class="phrase-foreign">ขอบคุณ</div>
+                        <div class="phrase-pronounce">扣坤</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">对不起</div>
+                        <div class="phrase-foreign">ขอโทษ</div>
+                        <div class="phrase-pronounce">扣托</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">是/不是</div>
+                        <div class="phrase-foreign">ใช่ / ไม่ใช่</div>
+                        <div class="phrase-pronounce">蔡 / 迈蔡</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🛒 购物场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">这个多少钱？</div>
+                        <div class="phrase-foreign">นี่เท่าไหร่?</div>
+                        <div class="phrase-pronounce">尼套来</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">便宜点吧</div>
+                        <div class="phrase-foreign">ลดหน่อยได้ไหม?</div>
+                        <div class="phrase-pronounce">洛诺伊代买</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🗺️ 问路场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">车站在哪里？</div>
+                        <div class="phrase-foreign">สถานีอยู่ที่ไหน?</div>
+                        <div class="phrase-pronounce">萨塔尼由提奈</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">洗手间在哪里？</div>
+                        <div class="phrase-foreign">ห้องน้ำอยู่ที่ไหน?</div>
+                        <div class="phrase-pronounce">哄南由提奈</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 英语 -->
+        <div class="lang-content" id="english">
+            <div class="category-section">
+                <h3 class="category-title">🇬🇧 基本交流</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Hello</div>
+                        <div class="phrase-foreign">Hello <button class="play-btn" onclick="speak('hello')">🔊</button></div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Thank you</div>
+                        <div class="phrase-foreign">Thank you <button class="play-btn" onclick="speak('thank you')">🔊</button></div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Sorry</div>
+                        <div class="phrase-foreign">Sorry</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Excuse me</div>
+                        <div class="phrase-foreign">Excuse me</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Yes / No</div>
+                        <div class="phrase-foreign">Yes / No</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">I don't understand</div>
+                        <div class="phrase-foreign">I don't understand</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🛒 购物场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">How much is this?</div>
+                        <div class="phrase-foreign">How much is this?</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Can I pay by card?</div>
+                        <div class="phrase-foreign">Can I pay by card?</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">Too expensive</div>
+                        <div class="phrase-foreign">Too expensive</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 韩语 -->
+        <div class="lang-content" id="korean">
+            <div class="category-section">
+                <h3 class="category-title">🇰🇷 基本交流</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">你好</div>
+                        <div class="phrase-foreign">안녕하세요</div>
+                        <div class="phrase-pronounce">安宁哈塞哟</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">谢谢</div>
+                        <div class="phrase-foreign">감사합니다</div>
+                        <div class="phrase-pronounce">卡姆撒哈姆尼达</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">对不起</div>
+                        <div class="phrase-foreign">죄송합니다</div>
+                        <div class="phrase-pronounce">最宋哈姆尼达</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">是/不是</div>
+                        <div class="phrase-foreign">네 / 아니요</div>
+                        <div class="phrase-pronounce">内 / 阿尼哟</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="category-section">
+                <h3 class="category-title">🗺️ 问路场景</h3>
+                <div class="phrase-grid">
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">地铁站在哪里？</div>
+                        <div class="phrase-foreign">지하철역이 어디에 있어요?</div>
+                        <div class="phrase-pronounce">资哈策尔列g一额滴诶一塞哟</div>
+                    </div>
+                    <div class="phrase-card">
+                        <div class="phrase-chinese">洗手间在哪里？</div>
+                        <div class="phrase-foreign">화장실이 어디에 있어요?</div>
+                        <div class="phrase-pronounce">花脏西尔一额滴诶一塞哟</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips-section">
+            <h3>💡 语言沟通小技巧</h3>
+            <div class="tips-list">
+                <div class="tip-item">
+                    <span>📱</span>
+                    <div>提前下载翻译APP（Google翻译、有道翻译官）支持离线翻译</div>
+                </div>
+                <div class="tip-item">
+                    <span>📝</span>
+                    <div>把重要短语截屏保存，手机没网时也能看</div>
+                </div>
+                <div class="tip-item">
+                    <span>🤝</span>
+                    <div>肢体语言是通用语言，指图、比划都有效</div>
+                </div>
+                <div class="tip-item">
+                    <span>😊</span>
+                    <div>保持微笑，对方会更有耐心</div>
+                </div>
+                <div class="tip-item">
+                    <span>📍</span>
+                    <div>复杂地址给对方看地图，比说更管用</div>
+                </div>
+                <div class="tip-item">
+                    <span>👵</span>
+                    <div>对当地老人可能不会英语，找年轻人帮忙翻译</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        // 切换语言
+        function showLang(lang) {
+            document.querySelectorAll('.lang-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.lang-tab').forEach(el => el.classList.remove('active'));
+            document.getElementById(lang).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // 搜索功能
+        function searchPhrases() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.phrase-card').forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(input) ? 'block' : 'none';
+            });
+        }
+        
+        // 发音功能（使用浏览器TTS）
+        function speak(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8;
+            speechSynthesis.speak(utterance);
+        }
+    </script>
+</body>
+</html>

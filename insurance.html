@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>保险指南 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4A3E;
+            --secondary: #8B9A7D;
+            --accent: #D4A574;
+            --light: #F8F6F3;
+            --dark: #1A1A1A;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+            --blue: #3498DB;
+            --green: #27AE60;
+            --red: #E74C3C;
+            --purple: #9B59B6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(248, 246, 243, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Hero */
+        .insurance-hero {
+            padding: 12rem 5% 3rem;
+            background: linear-gradient(135deg, var(--purple) 0%, #7d3c98 100%);
+            color: white;
+            text-align: center;
+        }
+        .insurance-hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 主内容 */
+        .container { padding: 3rem 5%; max-width: 1000px; margin: 0 auto; }
+        
+        .section-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        /* 为什么需要保险 */
+        .why-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+        }
+        .why-section h2 { color: var(--primary); margin-bottom: 1.5rem; }
+        
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .why-item {
+            padding: 1.5rem;
+            background: #f8f6f3;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+        .why-item h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        
+        /* 必保险种 */
+        .coverage-section {
+            margin-bottom: 3rem;
+        }
+        
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .coverage-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .coverage-card.essential::before {
+            content: "必选";
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            background: var(--red);
+            color: white;
+            padding: 5px 40px;
+            font-size: 0.75rem;
+            transform: rotate(45deg);
+        }
+        
+        .coverage-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .coverage-card .icon {
+            font-size: 1.5rem;
+        }
+        
+        .coverage-card ul {
+            padding-left: 1.2rem;
+        }
+        
+        .coverage-card li {
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+        
+        /* 推荐方案 */
+        .plan-section {
+            margin-bottom: 3rem;
+        }
+        
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .plan-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .plan-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .plan-card.featured {
+            border: 3px solid var(--accent);
+        }
+        
+        .plan-card.featured::after {
+            content: "🏆 最受欢迎";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .plan-card h3 {
+            font-size: 1.4rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-card .subtitle {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-card .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        
+        .plan-card .features {
+            text-align: left;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .plan-card .features li {
+            padding: 0.5rem 0;
+            list-style: none;
+            position: padding-left: 1.5rem;
+        }
+        
+        .plan-card .features li::before {
+            content: "✓";
+            color: var(--green);
+            margin-right: 0.5rem;
+            margin-left: -1.5rem;
+            position: absolute;
+        }
+        
+        /* 注意事项 */
+        .tips-section {
+            background: #fff9e6;
+            border-radius: 16px;
+            padding: 2rem;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .tips-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .tips-section ul {
+            padding-left: 1.5rem;
+        }
+        
+        .tips-section li {
+            margin-bottom: 0.8rem;
+        }
+        
+        /* 理赔流程 */
+        .claim-section {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .claim-steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .claim-step {
+            flex: 1;
+            min-width: 150px;
+            text-align: center;
+            padding: 1.5rem;
+            background: #f8f6f3;
+            border-radius: 12px;
+        }
+        
+        .claim-step .number {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+        }
+        
+        .claim-step h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+        </ul>
+    </nav>
+    
+    <div class="insurance-hero">
+        <h1>🛡️ 保险指南</h1>
+        <p>一份好的旅行保险，是独行旅程的安心保障</p>
+    </div>
+    
+    <div class="container">
+        <div class="why-section">
+            <h2>为什么独行女性必须买保险？</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <h4>💸 医疗费用高昂</h4>
+                    <p>海外就医费用可能是国内的10倍以上，一份保险可以避免天价医疗账单</p>
+                </div>
+                <div class="why-item">
+                    <h4>✈️ 航班延误/取消</h4>
+                    <p>航空管制、天气原因可能导致行程变更，保险可以挽回损失</p>
+                </div>
+                <div class="why-item">
+                    <h4>📱 行李丢失</h4>
+                    <p>航空公司丢行李时有发生，保险可以赔偿损失</p>
+                </div>
+                <div class="why-item">
+                    <h4>🏥 紧急救援</h4>
+                    <p>遭遇意外或突发疾病时，保险公司可以提供紧急救援服务</p>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">必保险种一览</h2>
+        
+        <div class="coverage-section">
+            <div class="coverage-grid">
+                <div class="coverage-card essential">
+                    <h3><span class="icon">🏥</span> 医疗保障</h3>
+                    <ul>
+                        <li>意外伤害医疗</li>
+                        <li>疾病住院医疗</li>
+                        <li>门急诊费用</li>
+                        <li>既往症（部分产品可加购）</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card essential">
+                    <h3><span class="icon">🚑</span> 紧急救援</h3>
+                    <ul>
+                        <li>紧急医疗运送</li>
+                        <li>遗体遣返</li>
+                        <li>亲属探访费用</li>
+                        <li>24小时中文热线</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><span class="icon">✈️</span> 行程保障</h3>
+                    <ul>
+                        <li>航班延误（超过4小时）</li>
+                        <li>行李延误</li>
+                        <li>行程取消/中断</li>
+                        <li>旅行变更</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><span class="icon">🎒</span> 财物保障</h3>
+                    <ul>
+                        <li>个人行李丢失</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><span class="icon">💼</span> 责任保障</h3>
+                    <ul>
+                        <li>个人第三方责任</li>
+                        <li>意外身故/伤残</li>
+                    </ul>
+                </div>
+                
+                <div class="coverage-card">
+                    <h3><span class="icon">🎿</span> 特殊活动</h3>
+                    <ul>
+                        <li>高风险运动（需额外投保）</li>
+                        <li>滑雪、潜水、蹦极等</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <h2 class="section-title">推荐方案</h2>
+        
+        <div class="plan-section">
+            <div class="plan-grid">
+                <div class="plan-card">
+                    <h3>基础保障</h3>
+                    <p class="subtitle">东南亚/周边国家</p>
+                    <div class="price">¥30<span>/天</span></div>
+                    <ul class="features">
+                        <li>30万医疗保障</li>
+                        <li>紧急救援</li>
+                        <li>航班延误保障</li>
+                        <li>行李丢失保障</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card featured">
+                    <h3>舒适出行</h3>
+                    <p class="subtitle">日本/韩国/欧洲</p>
+                    <div class="price">¥60<span>/天</span></div>
+                    <ul class="features">
+                        <li>100万医疗保障</li>
+                        <li>中文紧急热线</li>
+                        <li>航班延误/取消</li>
+                        <li>个人责任保障</li>
+                        <li>行李延误/丢失</li>
+                    </ul>
+                </div>
+                
+                <div class="plan-card">
+                    <h3>高端安心</h3>
+                    <p class="subtitle">美国/澳洲/长途旅行</p>
+                    <div class="price">¥120<span>/天</span></div>
+                    <ul class="features">
+                        <li>300万医疗保障</li>
+                        <li>全程中文服务</li>
+                        <li>既往症可保</li>
+                        <li>高风险运动保障</li>
+                        <li>家属探访费用</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips-section">
+            <h3>⚠️ 购买注意事项</h3>
+            <ul>
+                <li><strong>生效时间：</strong>建议出发前一天投保，确保覆盖全程</li>
+                <li><strong>保额选择：</strong>欧美日韩建议≥50万医疗保额，美国建议100万+</li>
+                <li><strong>仔细阅读条款：</strong>特别注意免责条款，如极限运动、战争等</li>
+                <li><strong>保留凭证：</strong>投保后保存电子保单，分享给家人</li>
+                <li><strong>及时报案：</strong>出险后24小时内联系保险公司</li>
+            </ul>
+        </div>
+        
+        <div class="claim-section">
+            <h3>📋 理赔流程</h3>
+            <div class="claim-steps">
+                <div class="claim-step">
+                    <div class="number">1</div>
+                    <h4>及时报案</h4>
+                    <p>出险后24小时内拨打保险公司热线</p>
+                </div>
+                <div class="claim-step">
+                    <div class="number">2</div>
+                    <h4>收集材料</h4>
+                    <p>保留所有医疗单据、报警证明等</p>
+                </div>
+                <div class="claim-step">
+                    <div class="number">3</div>
+                    <h4>提交理赔</h4>
+                    <p>通过APP或邮箱提交材料</p>
+                </div>
+                <div class="claim-step">
+                    <div class="number">4</div>
+                    <h4>审核到账</h4>
+                    <p>一般7-15个工作日完成审核</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips-section" style="background: #e8f5e9; border-left-color: #27AE60; margin-top: 2rem;">
+            <h3>💡 独行女性专属建议</h3>
+            <ul>
+                <li>选择<strong>24小时中文客服</strong>的产品，紧急时沟通更顺畅</li>
+                <li>如果计划徒步、潜水等，务必确认<strong>高风险运动</strong>是否涵盖</li>
+                <li>建议附加<strong>个人责任险</strong>，避免意外造成第三方损失</li>
+                <li>长途旅行可考虑<strong>既往症</strong>保障，但通常需要额外付费</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+</body>
+</html>

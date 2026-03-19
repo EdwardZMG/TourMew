@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>预算工具 - 途喵-独行侠 SoloWander</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2D4A3E;
+            --secondary: #8B9A7D;
+            --accent: #D4A574;
+            --light: #F8F6F3;
+            --dark: #1A1A1A;
+            --text: #3D3D3D;
+            --text-light: #6B6B6B;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            color: var(--text);
+            background: var(--light);
+            line-height: 1.8;
+            padding-bottom: 2rem;
+        }
+        
+        /* 导航 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(248, 246, 243, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+        }
+        .logo {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); }
+        
+        /* Hero */
+        .budget-hero {
+            padding: 12rem 5% 3rem;
+            background: linear-gradient(135deg, var(--accent) 0%, #c4956a 100%);
+            color: white;
+            text-align: center;
+        }
+        .budget-hero h1 {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* 主内容 */
+        .container { padding: 3rem 5%; max-width: 900px; margin: 0 auto; }
+        
+        /* 计算器卡片 */
+        .calculator {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        
+        .calc-section {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        .calc-section:last-child { border-bottom: none; margin-bottom: 0; }
+        
+        .calc-section h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .input-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-item label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+        
+        .input-item input {
+            padding: 0.8rem 1rem;
+            border: 2px solid #eee;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .input-item input:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+        
+        .slider-group {
+            margin: 1rem 0;
+        }
+        
+        .slider-group label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .slider-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #eee;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        .slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+        }
+        
+        /* 预算结果显示 */
+        .result-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a2f28 100%);
+            color: white;
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .result-card h3 {
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+        
+        .total-amount {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .total-amount span {
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .result-breakdown {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .breakdown-item {
+            text-align: center;
+        }
+        
+        .breakdown-item .label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .breakdown-item .value {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        /* 每日预算建议 */
+        .daily-suggestion {
+            background: #f8f6f3;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .daily-suggestion h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .suggestion-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+        
+        .suggestion-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        
+        .suggestion-item .level {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .suggestion-item .level.low { color: #27AE60; }
+        .suggestion-item .level.mid { color: var(--accent); }
+        .suggestion-item .level.high { color: #E74C3C; }
+        
+        .suggestion-item .amount {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        /* 按钮 */
+        .btn-calculate {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            margin-top: 2rem;
+        }
+        
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            background: #1a2f28;
+        }
+        
+        /* 提示 */
+        .tips {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: #e8f5e9;
+            border-radius: 12px;
+            border-left: 4px solid #27AE60;
+        }
+        
+        .tips h4 { color: #27AE60; margin-bottom: 0.5rem; }
+        .tips ul { padding-left: 1.5rem; }
+        .tips li { color: var(--text); margin-bottom: 0.3rem; }
+        
+        /* 页脚 */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 5%;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        @media (max-width: 600px) {
+            .suggestion-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html" class="logo">途喵<span>-独行侠</span></a>
+        <ul class="nav-links">
+            <li><a href="index.html">首页</a></li>
+            <li><a href="destinations.html">目的地</a></li>
+            <li><a href="planner.html">行程规划</a></li>
+            <li><a href="safety.html">安全中心</a></li>
+            <li><a href="checklist.html">出行清单</a></li>
+            <li><a href="budget.html">预算工具</a></li>
+        </ul>
+    </nav>
+    
+    <div class="budget-hero">
+        <h1>💰 预算工具</h1>
+        <p>轻松规划你的旅行预算，让每一分钱都花得明白</p>
+    </div>
+    
+    <div class="container">
+        <div class="calculator">
+            <div class="calc-section">
+                <h3>✈️ 往返交通</h3>
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>出发城市</label>
+                        <input type="text" id="departure" placeholder="如：北京">
+                    </div>
+                    <div class="input-item">
+                        <label>目的地</label>
+                        <input type="text" id="destination" placeholder="如：东京">
+                    </div>
+                    <div class="input-item">
+                        <label>往返机票预算</label>
+                        <input type="number" id="flightBudget" value="3000" min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calc-section">
+                <h3>🏨 住宿</h3>
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>住宿天数</label>
+                        <input type="number" id="nights" value="5" min="1" onchange="calculate()">
+                    </div>
+                    <div class="input-item">
+                        <label>每晚预算</label>
+                        <input type="number" id="hotelBudget" value="400" min="0" onchange="calculate()">
+                    </div>
+                </div>
+                <div class="slider-group">
+                    <label>
+                        <span>住宿档次</span>
+                        <span id="hotelLevel">经济型</span>
+                    </label>
+                    <input type="range" id="hotelStandard" min="1" max="3" value="2" oninput="updateHotelLevel()">
+                </div>
+            </div>
+            
+            <div class="calc-section">
+                <h3>🍜 餐饮</h3>
+                <div class="slider-group">
+                    <label>
+                        <span>每日餐饮预算</span>
+                        <span id="foodAmount">¥200/天</span>
+                    </label>
+                    <input type="range" id="foodBudget" min="80" max="500" value="200" step="10" oninput="updateFoodLabel()">
+                </div>
+            </div>
+            
+            <div class="calc-section">
+                <h3>🎫 活动与门票</h3>
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>景点门票预算</label>
+                        <input type="number" id="attractionBudget" value="500" min="0">
+                    </div>
+                    <div class="input-item">
+                        <label>活动体验预算</label>
+                        <input type="number" id="activityBudget" value="800" min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="calc-section">
+                <h3>🛍️ 其他开销</h3>
+                <div class="input-group">
+                    <div class="input-item">
+                        <label>购物预算</label>
+                        <input type="number" id="shoppingBudget" value="1000" min="0">
+                    </div>
+                    <div class="input-item">
+                        <label>交通（当地）</label>
+                        <input type="number" id="localTransport" value="300" min="0">
+                    </div>
+                    <div class="input-item">
+                        <label>通讯与网络</label>
+                        <input type="number" id="communication" value="100" min="0">
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn-calculate" onclick="calculate()">📊 计算总预算</button>
+            
+            <div class="result-card" id="resultCard" style="display: none;">
+                <h3>💵 预计总预算</h3>
+                <div class="total-amount">¥<span id="totalBudget">0</span></div>
+                <p>折合约 <span id="totalUSD">0</span> 美元 / <span id="totalEUR">0</span> 欧元</p>
+                
+                <div class="result-breakdown">
+                    <div class="breakdown-item">
+                        <div class="label">往返交通</div>
+                        <div class="value" id="breakdownFlight">¥0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="label">住宿</div>
+                        <div class="value" id="breakdownHotel">¥0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="label">餐饮</div>
+                        <div class="value" id="breakdownFood">¥0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="label">活动门票</div>
+                        <div class="value" id="breakdownAttraction">¥0</div>
+                    </div>
+                    <div class="breakdown-item">
+                        <div class="label">其他</div>
+                        <div class="value" id="breakdownOther">¥0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="daily-suggestion" id="dailySuggestion" style="display: none;">
+                <h4>📅 每日预算建议</h4>
+                <div class="suggestion-grid">
+                    <div class="suggestion-item">
+                        <div class="level low">穷游版</div>
+                        <div class="amount" id="dailyLow">¥300</div>
+                    </div>
+                    <div class="suggestion-item">
+                        <div class="level mid">舒适版</div>
+                        <div class="amount" id="dailyMid">¥600</div>
+                    </div>
+                    <div class="suggestion-item">
+                        <div class="level high">豪华版</div>
+                        <div class="amount" id="dailyHigh">¥1200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tips">
+            <h4>💡 省预算小技巧</h4>
+            <ul>
+                <li>提前2-3个月预订机票，通常最便宜</li>
+                <li>避开旺季和节假日出行</li>
+                <li>选择民宿或青旅，比酒店省30-50%</li>
+                <li>当地超市采购食材，自己做部分餐食</li>
+                <li>购买城市通票，景点门票更便宜</li>
+                <li>使用公共交通代替出租车</li>
+            </ul>
+        </div>
+    </div>
+    
+    <footer>
+        <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
+    </footer>
+    
+    <script>
+        function updateHotelLevel() {
+            const levels = ['经济型', '舒适型', '豪华型'];
+            const level = document.getElementById('hotelStandard').value;
+            document.getElementById('hotelLevel').textContent = levels[level - 1];
+            
+            const prices = [200, 400, 800];
+            document.getElementById('hotelBudget').value = prices[level - 1];
+            calculate();
+        }
+        
+        function updateFoodLabel() {
+            const amount = document.getElementById('foodBudget').value;
+            document.getElementById('foodAmount').textContent = `¥${amount}/天`;
+            calculate();
+        }
+        
+        function calculate() {
+            const flight = parseFloat(document.getElementById('flightBudget').value) || 0;
+            const nights = parseInt(document.getElementById('nights').value) || 0;
+            const hotel = parseFloat(document.getElementById('hotelBudget').value) || 0;
+            const food = parseFloat(document.getElementById('foodBudget').value) || 0;
+            const attraction = parseFloat(document.getElementById('attractionBudget').value) || 0;
+            const activity = parseFloat(document.getElementById('activityBudget').value) || 0;
+            const shopping = parseFloat(document.getElementById('shoppingBudget').value) || 0;
+            const localTrans = parseFloat(document.getElementById('localTransport').value) || 0;
+            const comm = parseFloat(document.getElementById('communication').value) || 0;
+            
+            const hotelTotal = hotel * nights;
+            const foodTotal = food * nights;
+            const otherTotal = shopping + localTrans + comm;
+            const activityTotal = attraction + activity;
+            
+            const total = flight + hotelTotal + foodTotal + activityTotal + otherTotal;
+            
+            // 显示结果
+            document.getElementById('resultCard').style.display = 'block';
+            document.getElementById('dailySuggestion').style.display = 'block';
+            
+            document.getElementById('totalBudget').textContent = total.toLocaleString();
+            document.getElementById('totalUSD').textContent = (total / 7.2).toFixed(0);
+            document.getElementById('totalEUR').textContent = (total / 7.8).toFixed(0);
+            
+            document.getElementById('breakdownFlight').textContent = `¥${flight.toLocaleString()}`;
+            document.getElementById('breakdownHotel').textContent = `¥${hotelTotal.toLocaleString()}`;
+            document.getElementById('breakdownFood').textContent = `¥${foodTotal.toLocaleString()}`;
+            document.getElementById('breakdownAttraction').textContent = `¥${activityTotal.toLocaleString()}`;
+            document.getElementById('breakdownOther').textContent = `¥${otherTotal.toLocaleString()}`;
+            
+            // 每日预算建议
+            const dailyTotal = total / nights;
+            document.getElementById('dailyLow').textContent = `¥${Math.round(dailyTotal * 0.5)}`;
+            document.getElementById('dailyMid').textContent = `¥${Math.round(dailyTotal)}`;
+            document.getElementById('dailyHigh').textContent = `¥${Math.round(dailyTotal * 2)}`;
+        }
+        
+        // 初始化计算
+        calculate();
+    </script>
+</body>
+</html>
