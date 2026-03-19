@@ -184,12 +184,12 @@
         .dest-card:hover { transform: translateY(-5px); }
         .dest-img {
             height: 200px;
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
+            background-size: cover;
+            background-position: center;
         }
+        .dest-img.tokyo { background-image: url('https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&q=80'); }
+        .dest-img.chiangmai { background-image: url('https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80'); }
+        .dest-img.newyork { background-image: url('https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=800&q=80'); }
         .dest-info { padding: 1.5rem; }
         .dest-info h3 { color: var(--primary); margin-bottom: 0.5rem; }
         .dest-info p { color: var(--text-light); font-size: 0.9rem; margin-bottom: 1rem; }
@@ -344,7 +344,7 @@
         
         <div class="dest-grid">
             <div class="dest-card">
-                <div class="dest-img">🗼</div>
+                <div class="dest-img tokyo"></div>
                 <div class="dest-info">
                     <h3>日本·东京</h3>
                     <p>安全系数高、交通便利、独自旅行氛围好</p>
@@ -352,7 +352,7 @@
                 </div>
             </div>
             <div class="dest-card">
-                <div class="dest-img">🏝️</div>
+                <div class="dest-img chiangmai"></div>
                 <div class="dest-info">
                     <h3>泰国·清迈</h3>
                     <p>物价亲民、节奏悠闲、泰式微笑温暖</p>
@@ -360,7 +360,7 @@
                 </div>
             </div>
             <div class="dest-card">
-                <div class="dest-img">🗽</div>
+                <div class="dest-img newyork"></div>
                 <div class="dest-info">
                     <h3>美国·纽约</h3>
                     <p>多元文化、精彩纷呈、独自探索的终极目的地</p>

@@ -29,10 +29,13 @@
         .dest-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem; }
         .dest-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08); transition: all 0.3s; }
         .dest-card:hover { transform: translateY(-8px); }
-        .dest-img { height: 220px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; }
-        .dest-img.asia { background: linear-gradient(135deg, #ff9a9e, #fecfef); }
-        .dest-img.europe { background: linear-gradient(135deg, #a18cd1, #fbc2eb); }
-        .dest-img.america { background: linear-gradient(135deg, #84fab0, #8fd3f4); }
+        .dest-img { height: 220px; display: flex; align-items: center; justify-content: center; font-size: 5rem; position: relative; background-size: cover; background-position: center; }
+        .dest-img.tokyo { background-image: url('https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?w=800&q=80'); }
+        .dest-img.chiangmai { background-image: url('https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&q=80'); }
+        .dest-img.newyork { background-image: url('https://images.unsplash.com/photo-1485738422979-f5c462d49f74?w=800&q=80'); }
+        .dest-img.paris { background-image: url('https://images.unsplash.com/photo-1511739001486-6bfe10ce65f4?w=800&q=80'); }
+        .dest-img.kyoto { background-image: url('https://images.unsplash.com/photo-1478436127897-769e1b3f0f36?w=800&q=80'); }
+        .dest-img.bali { background-image: url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=800&q=80'); }
         .dest-badge { position: absolute; top: 15px; left: 15px; background: var(--primary); color: white; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.8rem; }
         .dest-info { padding: 1.5rem; }
         .dest-info h3 { color: var(--primary); margin-bottom: 0.5rem; font-size: 1.3rem; }
@@ -78,7 +81,7 @@
         
         <div class="dest-grid">
             <div class="dest-card">
-                <div class="dest-img asia"><span class="dest-badge">亚洲首选</span>🗼</div>
+                <div class="dest-img tokyo"><span class="dest-badge">亚洲首选</span></div>
                 <div class="dest-info">
                     <h3>日本·东京</h3>
                     <p>安全系数世界前列，交通便利，独自旅行氛围极佳。适合第一次出国的独行新手。</p>
@@ -95,7 +98,7 @@
             </div>
             
             <div class="dest-card">
-                <div class="dest-img asia"><span class="dest-badge">性价比王</span>🏝️</div>
+                <div class="dest-img chiangmai"><span class="dest-badge">性价比王</span></div>
                 <div class="dest-info">
                     <h3>泰国·清迈</h3>
                     <p>物价亲民、节奏悠闲、泰式微笑温暖身心。邓丽君最爱的小城，非常适合慢旅行。</p>
@@ -112,7 +115,7 @@
             </div>
             
             <div class="dest-card">
-                <div class="dest-img europe"><span class="dest-badge">文艺之旅</span>🗽</div>
+                <div class="dest-img newyork"><span class="dest-badge">都市冒险</span></div>
                 <div class="dest-info">
                     <h3>美国·纽约</h3>
                     <p>多元文化的熔炉，精彩纷呈的终极都市目的地。适合渴望冒险的独行侠。</p>
@@ -129,7 +132,7 @@
             </div>
             
             <div class="dest-card">
-                <div class="dest-img europe"><span class="dest-badge">浪漫之都</span>🎡</div>
+                <div class="dest-img paris"><span class="dest-badge">浪漫之都</span></div>
                 <div class="dest-info">
                     <h3>法国·巴黎</h3>
                     <p>浪漫与时尚的代名词，一个人逛博物馆、喝咖啡、漫步塞纳河畔，别有一番风味。</p>
@@ -146,7 +149,7 @@
             </div>
             
             <div class="dest-card">
-                <div class="dest-img asia"><span class="dest-badge">亲子之选</span>🌸</div>
+                <div class="dest-img kyoto"><span class="dest-badge">古都韵味</span></div>
                 <div class="dest-info">
                     <h3>日本·京都</h3>
                     <p>古都韵味、寺庙神社、祇园艺伎。适合喜欢历史文化、追求内心平静的旅行者。</p>
@@ -163,7 +166,7 @@
             </div>
             
             <div class="dest-card">
-                <div class="dest-img america"><span class="dest-badge">海岛度假</span>🏖️</div>
+                <div class="dest-img bali"><span class="dest-badge">海岛度假</span></div>
                 <div class="dest-info">
                     <h3>印尼·巴厘岛</h3>
                     <p>梯田、火山、海滩、庙宇。瑜伽灵修胜地，适合想放松身心、寻找自我的你。</p>
