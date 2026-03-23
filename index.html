@@ -16,6 +16,7 @@
             --dark: #1A1A1A;
             --text: #3D3D3D;
             --text-light: #6B6B6B;
+            --pink: #E8B4BC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -96,6 +97,8 @@
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
+            cursor: pointer;
+            border: none;
         }
         .btn-primary {
             background: var(--accent);
@@ -108,6 +111,26 @@
             color: white;
         }
         .btn-secondary:hover { background: white; color: var(--primary); }
+        
+        /* 新增：紧急SOS按钮 */
+        .sos-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: #E74C3C;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+            z-index: 999;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+        }
+        .sos-float:hover { transform: scale(1.1); }
         
         .scroll-hint {
             position: absolute;
@@ -138,7 +161,7 @@
             margin-bottom: 3rem;
         }
         
-        /* 特色功能 */
+        /* 新增：女性专属功能 */
         .features { background: white; }
         .feature-grid {
             display: grid;
@@ -153,8 +176,13 @@
             border-radius: 20px;
             background: var(--light);
             transition: all 0.3s;
+            border: 2px solid transparent;
         }
-        .feature-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .feature-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-color: var(--accent);
+        }
         .feature-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
@@ -164,6 +192,32 @@
             margin-bottom: 0.5rem;
         }
         .feature-card p { color: var(--text-light); font-size: 0.95rem; }
+        
+        /* 新增：实时定位分享 - 特色卡片 */
+        .safety-highlight {
+            background: linear-gradient(135deg, #FFF5F5 0%, #FFF 100%);
+            border: 2px solid var(--pink);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .safety-highlight h3 {
+            color: #E74C3C;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .safety-highlight p { color: var(--text-light); margin-bottom: 1.5rem; }
+        .safety-score {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #27AE60;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
         
         /* 目的地预览 */
         .destinations { background: var(--light); }
@@ -201,8 +255,21 @@
             font-size: 0.8rem;
             color: var(--secondary);
         }
+        /* 新增：目的地安全评分 */
+        .safety-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #27AE60;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .dest-card { position: relative; }
         
-        /* 用户心声 */
+        /* 用户心声 - 增强版 */
         .testimonials { background: var(--primary); color: white; }
         .testimonials .section-title { color: white; }
         .testimonials .section-subtitle { color: rgba(255,255,255,0.7); }
@@ -217,6 +284,7 @@
             background: rgba(255,255,255,0.1);
             padding: 2rem;
             border-radius: 16px;
+            text-align: left;
         }
         .testi-card .avatar {
             width: 60px;
@@ -229,8 +297,40 @@
             font-size: 1.5rem;
             margin-bottom: 1rem;
         }
-        .testi-card p { opacity: 0.9; margin-bottom: 1rem; font-style: italic; }
+        .testi-card p { opacity: 0.9; margin-bottom: 1rem; font-style: italic; line-height: 1.6; }
+        .testi-card .story { 
+            font-size: 0.9rem; 
+            opacity: 0.8; 
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.2);
+        }
         .testi-card .name { color: var(--accent); font-weight: 600; }
+        
+        /* 新增：结伴同行区块 */
+        .community {
+            background: linear-gradient(135deg, var(--pink) 0%, #F8E8EA 100%);
+        }
+        .community .section-title { color: var(--primary); }
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .community-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+        .community-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .community-card h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        .community-card p { color: var(--text-light); font-size: 0.9rem; }
         
         /* CTA */
         .cta {
@@ -285,19 +385,33 @@
             <li><a href="budget.html">预算工具</a></li>
             <li><a href="insurance.html">保险指南</a></li>
             <li><a href="accommodation.html">住宿推荐</a></li>
+            <li><a href="community.html" style="color: var(--accent);">🌸 结伴社区</a></li>
         </ul>
     </nav>
     
     <section class="hero">
         <div class="hero-content">
             <h1>一个人旅行，<br>也可以<span>很精彩</span></h1>
-            <p>专为独立女性打造的旅行平台。安全指南、行程规划、预算工具，让你的独旅之路更从容</p>
+            <p>专为独立女性打造的旅行平台。安全指南、行程规划、实时定位分享，让你的独旅之路更从容</p>
             <div class="hero-buttons">
                 <a href="destinations.html" class="btn btn-primary">开始探索</a>
                 <a href="checklist.html" class="btn btn-secondary">出行清单</a>
+                <a href="safety.html#sos" class="btn btn-secondary" style="border-color: #E74C3C; color: #E74C3C;">🆘 紧急求助</a>
             </div>
         </div>
         <div class="scroll-hint">↓ 向下滚动</div>
+    </section>
+    
+    <!-- 新增：实时定位分享功能展示 -->
+    <section class="features" style="background: linear-gradient(135deg, #FFF5F5 0%, #FFF 100%);">
+        <div class="safety-highlight">
+            <h3>📍 实时定位分享 · 家人更安心</h3>
+            <p>一键分享行程位置给家人朋友，实时掌握你的旅行动态</p>
+            <div class="safety-score">🛡️ 安全系数 9.5</div>
+            <div style="margin-top: 1rem;">
+                <a href="safety.html#location" class="btn btn-primary">开启定位守护</a>
+            </div>
+        </div>
     </section>
     
     <section class="features">
@@ -309,6 +423,11 @@
                 <div class="feature-icon">🛡️</div>
                 <h3>安全中心</h3>
                 <p>独行安全指南、紧急联系人、使领馆信息，为你的旅行保驾护航</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>定位分享</h3>
+                <p>实时位置分享，家人随时知道你在哪里，安心出行</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">📝</div>
@@ -335,6 +454,11 @@
                 <h3>语言助手</h3>
                 <p>常用旅行短语随身带，沟通无障碍</p>
             </div>
+            <div class="feature-card" style="border-color: var(--pink);">
+                <div class="feature-icon">👭</div>
+                <h3>结伴同行</h3>
+                <p>寻找同性旅伴，拼房拼车，一起探索世界</p>
+            </div>
         </div>
     </section>
     
@@ -344,6 +468,7 @@
         
         <div class="dest-grid">
             <div class="dest-card">
+                <span class="safety-badge">安全 9.5</span>
                 <div class="dest-img tokyo"></div>
                 <div class="dest-info">
                     <h3>日本·东京</h3>
@@ -352,6 +477,7 @@
                 </div>
             </div>
             <div class="dest-card">
+                <span class="safety-badge">安全 9.0</span>
                 <div class="dest-img chiangmai"></div>
                 <div class="dest-info">
                     <h3>泰国·清迈</h3>
@@ -360,12 +486,42 @@
                 </div>
             </div>
             <div class="dest-card">
+                <span class="safety-badge">安全 8.5</span>
                 <div class="dest-img newyork"></div>
                 <div class="dest-info">
                     <h3>美国·纽约</h3>
                     <p>多元文化、精彩纷呈、独自探索的终极目的地</p>
                     <span class="dest-tag">都市冒险</span>
                 </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 新增：结伴社区 -->
+    <section class="community">
+        <h2 class="section-title">🌸 结伴同行 · 独行不孤单</h2>
+        <p class="section-subtitle">找到志同道合的姐妹，一起探索世界</p>
+        
+        <div class="community-grid">
+            <div class="community-card">
+                <div class="icon">👭</div>
+                <h4>寻找旅伴</h4>
+                <p>根据目的地、时间匹配同性旅伴</p>
+            </div>
+            <div class="community-card">
+                <div class="icon">🏠</div>
+                <h4>拼房分摊</h4>
+                <p>安全舒适拼房，降低旅行成本</p>
+            </div>
+            <div class="community-card">
+                <div class="icon">🚗</div>
+                <h4>拼车出行</h4>
+                <p>同路线拼车，安全又省钱</p>
+            </div>
+            <div class="community-card">
+                <div class="icon">📸</div>
+                <h4>行程分享</h4>
+                <p>分享你的独旅故事，给姐妹们灵感</p>
             </div>
         </div>
     </section>
@@ -378,16 +534,19 @@
             <div class="testi-card">
                 <div class="avatar">S</div>
                 <p>"第一次独自出国选择了日本，行前看了安全中心的指南，安心很多。住宿推荐也很棒，一个人住也很安全！"</p>
+                <div class="story">🚗 东京7天 | 住宿：女性专用胶囊酒店 | 花费：¥8000</div>
                 <span class="name">Sarah，28岁</span>
             </div>
             <div class="testi-card">
                 <div class="avatar">M</div>
-                <p>"出行清单真的救了我！每次出发前勾选一遍，再也不怕忘带东西了。预算工具也很实用，精准控制开支。"</p>
+                <p>"出行清单真的救了我！每次出发前勾选一遍，再也不怕忘带东西了。定位分享功能让我妈妈随时知道我在哪里，终于放心让我一个人出去了。"</p>
+                <div class="story">🚗 清迈14天 | 结伴：认识了3个姐妹 | 花费：¥12000</div>
                 <span class="name">Mia，32岁</span>
             </div>
             <div class="testi-card">
                 <div class="avatar">L</div>
                 <p>"保险指南帮我选到了性价比超高的保险，出国旅行最重要的就是安心。途喵真的很懂我们独行女性的需求。"</p>
+                <div class="story">🚗 纽约10天 | 住宿：Airbnb安全社区 | 花费：¥25000</div>
                 <span class="name">Lily，35岁</span>
             </div>
         </div>
@@ -430,6 +589,11 @@
             <p>© 2026 途喵-独行侠 SoloWander. All rights reserved.</p>
         </div>
     </footer>
+    
+    <!-- 悬浮SOS按钮 -->
+    <div class="sos-float" onclick="window.location.href='safety.html#sos'">
+        🆘 SOS
+    </div>
     
     <script>
         // 导航滚动效果

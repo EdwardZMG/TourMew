@@ -19,6 +19,7 @@
             --danger: #E74C3C;
             --warning: #F39C12;
             --safe: #27AE60;
+            --pink: #E8B4BC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -74,7 +75,37 @@
         }
         .safety-hero p { opacity: 0.9; font-size: 1.1rem; }
         
-        /* 紧急按钮 */
+        /* 紧急SOS区域 */
+        #sos { padding: 3rem 5%; background: linear-gradient(135deg, #FFF5F5 0%, #FFF 100%); }
+        .sos-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .sos-btn {
+            display: inline-block;
+            background: var(--danger);
+            color: white;
+            padding: 1.5rem 3rem;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 10px 30px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        .sos-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(231, 76, 60, 0.5);
+        }
+        .sos-desc {
+            margin-top: 1rem;
+            color: var(--text-light);
+        }
+        
+        /* 紧急快捷按钮 */
         .emergency-banner {
             background: var(--danger);
             color: white;
@@ -93,7 +124,9 @@
             background: rgba(255,255,255,0.2);
             padding: 0.5rem 1.5rem;
             border-radius: 25px;
+            transition: all 0.3s;
         }
+        .emergency-banner a:hover { background: white; color: var(--danger); }
         
         /* 内容 */
         .container { padding: 4rem 5%; max-width: 1200px; margin: 0 auto; }
@@ -105,6 +138,73 @@
             margin-bottom: 2rem;
             text-align: center;
         }
+        
+        /* 实时定位分享模块 */
+        .location-section {
+            background: linear-gradient(135deg, #E8F5E9 0%, #FFF 100%);
+            border: 2px solid var(--safe);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .location-section h3 {
+            color: var(--safe);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .location-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .location-feature {
+            background: white;
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .location-feature .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .location-feature h4 { color: var(--primary); font-size: 1rem; }
+        .location-feature p { color: var(--text-light); font-size: 0.85rem; }
+        
+        .btn-location {
+            display: inline-block;
+            background: var(--safe);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        
+        /* 夜间出行安全 */
+        .night-safety {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            margin-bottom: 3rem;
+        }
+        .night-safety h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+        }
+        .night-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        .night-tip {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+        }
+        .night-tip .icon { font-size: 1.5rem; margin-right: 0.5rem; }
         
         /* 安全卡片 */
         .safety-grid {
@@ -164,7 +264,9 @@
             padding: 1rem;
             border-radius: 8px;
             text-align: center;
+            transition: transform 0.3s;
         }
+        .contact-card:hover { transform: scale(1.02); }
         .contact-card strong { color: var(--danger); display: block; font-size: 1.2rem; }
         
         /* 中国驻外使领馆 */
@@ -179,6 +281,36 @@
         }
         .embassy-item:last-child { border-bottom: none; }
         .embassy-item h4 { color: var(--primary); margin-bottom: 0.5rem; }
+        
+        /* 女性安全指数 */
+        .safety-index {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF 100%);
+            border: 2px solid var(--warning);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+        .safety-index h3 {
+            color: var(--warning);
+            margin-bottom: 1rem;
+        }
+        .index-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+        .index-item {
+            background: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .index-item .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--safe);
+        }
+        .index-item .label { color: var(--text-light); font-size: 0.9rem; }
         
         /* 页脚 */
         footer {
@@ -208,6 +340,14 @@
         <p>独行在外，安全第一。这里是你旅行的坚强后盾</p>
     </div>
     
+    <!-- 新增：SOS紧急求助 -->
+    <div id="sos">
+        <div class="sos-container">
+            <a href="tel:110" class="sos-btn">🆘 一键SOS紧急求助</a>
+            <p class="sos-desc">点击即可拨打当地报警电话，同时自动发送位置给紧急联系人</p>
+        </div>
+    </div>
+    
     <div class="emergency-banner">
         <span>🚨 遇到紧急情况？</span>
         <a href="tel:110">📞 报警: 110</a>
@@ -216,6 +356,81 @@
     </div>
     
     <div class="container">
+        <!-- 新增：实时定位分享 -->
+        <div class="location-section" id="location">
+            <h3>📍 实时定位分享 · 家人更安心</h3>
+            <p>一键分享行程位置给家人朋友，实时掌握你的旅行动态</p>
+            
+            <div class="location-features">
+                <div class="location-feature">
+                    <div class="icon">👨‍👩‍👧</div>
+                    <h4>家人守护</h4>
+                    <p>实时位置分享，家人随时知道你在哪</p>
+                </div>
+                <div class="location-feature">
+                    <div class="icon">⏰</div>
+                    <h4>定时打卡</h4>
+                    <p>设置打卡提醒，未打卡自动通知家人</p>
+                </div>
+                <div class="location-feature">
+                    <div class="icon">🔔</div>
+                    <h4>异常预警</h4>
+                    <p>超过时间未移动，自动触发预警</p>
+                </div>
+                <div class="location-feature">
+                    <div class="icon">📱</div>
+                    <h4>一键SOS</h4>
+                    <p>紧急情况下自动发送位置和求助信息</p>
+                </div>
+            </div>
+            
+            <a href="#" class="btn-location">开启定位守护 →</a>
+        </div>
+        
+        <!-- 新增：目的地安全指数 -->
+        <div class="safety-index">
+            <h3>🌍 热门目的地女性安全指数</h3>
+            <div class="index-grid">
+                <div class="index-item">
+                    <div class="score">9.5</div>
+                    <div class="label">日本·东京</div>
+                </div>
+                <div class="index-item">
+                    <div class="score">9.0</div>
+                    <div class="label">新加坡</div>
+                </div>
+                <div class="index-item">
+                    <div class="score">9.0</div>
+                    <div class="label">泰国·清迈</div>
+                </div>
+                <div class="index-item">
+                    <div class="score">8.5</div>
+                    <div class="label">韩国·首尔</div>
+                </div>
+                <div class="index-item">
+                    <div class="score">8.5</div>
+                    <div class="label">美国·纽约</div>
+                </div>
+                <div class="index-item">
+                    <div class="score">8.0</div>
+                    <div class="label">欧洲主要城市</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 新增：夜间出行安全 -->
+        <div class="night-safety">
+            <h3>🌙 夜间出行安全指南</h3>
+            <div class="night-tips">
+                <div class="night-tip"><span class="icon">🚕</span> 选择正规出租车，记下车牌号</div>
+                <div class="night-tip"><span class="icon">📱</span> 开启实时位置分享</div>
+                <div class="night-tip"><span class="icon">👫</span> 避免与陌生人拼车</div>
+                <div class="night-tip"><span class="icon">🏨</span> 尽量避免夜间外出</div>
+                <div class="night-tip"><span class="icon">🔒</span> 保持手机电量充足</div>
+                <div class="night-tip"><span class="icon">👨‍👩‍👧</span> 告知他人你的位置和返回时间</div>
+            </div>
+        </div>
+        
         <h2 class="section-title">独行女性安全指南</h2>
         
         <div class="safety-grid">
@@ -227,6 +442,7 @@
                     <li>使用门阻报警器增加安全感</li>
                     <li>保持房门锁好，不随意给陌生人开门</li>
                     <li>将酒店地址和电话告知家人</li>
+                    <li>优先选择女性专用楼层或女性友好酒店</li>
                 </ul>
             </div>
             
@@ -238,6 +454,7 @@
                     <li>保持手机电量充足，携带充电宝</li>
                     <li>将行程同步给家人或朋友</li>
                     <li>低调出行，不显露贵重物品</li>
+                    <li>使用定位分享功能实时守护</li>
                 </ul>
             </div>
             
@@ -343,6 +560,7 @@
                 <li>记录目的地使领馆联系方式</li>
                 <li>了解当地风俗禁忌</li>
                 <li>下载翻译软件和离线地图</li>
+                <li><strong>开启定位分享功能</strong></li>
             </ul>
         </div>
     </div>

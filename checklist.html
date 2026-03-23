@@ -17,6 +17,7 @@
             --text: #3D3D3D;
             --text-light: #6B6B6B;
             --checked: #27AE60;
+            --pink: #E8B4BC;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -119,8 +120,15 @@
             align-items: center;
             cursor: pointer;
         }
+        .category-header:hover { background: #1a2f28; }
         .category-header h3 { font-size: 1.1rem; }
         .category-header span { font-size: 0.9rem; opacity: 0.8; }
+        
+        /* 新增：女性专属分类样式 */
+        .category-header.women {
+            background: linear-gradient(135deg, var(--pink) 0%, #d4a5ad 100%);
+            color: var(--dark);
+        }
         
         .category-items { padding: 0; }
         .checklist-item {
@@ -193,6 +201,16 @@
         }
         .btn:hover { transform: scale(1.05); }
         
+        /* 提示框 */
+        .tip-box {
+            background: linear-gradient(135deg, #FFF9E6 0%, #FFF 100%);
+            border-left: 4px solid var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+        }
+        
         /* 页脚 */
         footer {
             background: var(--dark);
@@ -222,6 +240,10 @@
     </div>
     
     <div class="container">
+        <div class="tip-box">
+            💡 <strong>小贴士：</strong>新增了<strong>女性专属物品</strong>分类，专为独行女性设计，点击分类可展开/收起
+        </div>
+        
         <div class="progress-section">
             <div class="progress-bar">
                 <div class="progress-fill" id="progressFill"></div>
@@ -240,11 +262,12 @@
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">签证/签注</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">身份证</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">驾照（如需租车）</span></div>
-                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">护照复印件（份）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">护照复印件（2份）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">电子机票/行程单</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">酒店预订单</span></div>
-                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">旅行保险单</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">旅行保险单（打印+电子版）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">信用卡（开通境外支付）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">紧急联系人卡片（英文）</span></div>
             </div>
         </div>
         
@@ -275,6 +298,7 @@
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">相机（如有）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">转换插头</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">各国电压知识了解</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">便携WiFi/电话卡</span></div>
             </div>
         </div>
         
@@ -287,12 +311,13 @@
             <div class="category-items">
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">内衣裤（根据天数+1）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">袜子</span></div>
-                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">睡衣</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">睡衣（建议长袖）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">舒适步行鞋</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">拖鞋/凉鞋</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">外套（应对温差）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">防晒衣/帽子</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">泳装（如有水上活动）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">运动内衣（长途步行用）</span></div>
             </div>
         </div>
         
@@ -310,6 +335,7 @@
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">化妆品</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">梳子/发圈</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">毛巾/干发巾</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">卸妆湿巾/卸妆水</span></div>
             </div>
         </div>
         
@@ -330,6 +356,25 @@
             </div>
         </div>
         
+        <!-- 新增：女性专属物品 -->
+        <div class="category">
+            <div class="category-header women">
+                <h3>🌸 女性专属物品</h3>
+                <span class="category-progress">0/0</span>
+            </div>
+            <div class="category-items">
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">卫生巾/护垫（根据行程天数+备用）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">止痛药（如有痛经史）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">暖宝宝贴（应对寒冷环境）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">蒸汽眼罩（长途飞行/住宿）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">折叠梳子/便携镜子</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">润唇膏/润肤霜（机舱干燥）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">晒后修复/芦荟胶</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">隐形眼镜护理液（如戴隐形）</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">备用眼镜（或隐形眼镜）</span></div>
+            </div>
+        </div>
+        
         <!-- 安全用品 -->
         <div class="category">
             <div class="category-header">
@@ -342,6 +387,7 @@
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">防盗腰包/隐形钱包</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">哨子（防身用）</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">手电筒</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">随身报警器（高分贝）</span></div>
             </div>
         </div>
         
@@ -361,6 +407,7 @@
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">垃圾袋</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">笔记本/笔</span></div>
                 <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">书籍/电子阅读器</span></div>
+                <div class="checklist-item" onclick="toggle(this)"><div class="checkbox"></div><span class="item-text">耳塞（防噪音）</span></div>
             </div>
         </div>
     </div>
@@ -379,6 +426,18 @@
         document.addEventListener('DOMContentLoaded', () => {
             loadProgress();
             updateProgress();
+            
+            // 点击分类标题可折叠/展开
+            document.querySelectorAll('.category-header').forEach(header => {
+                header.addEventListener('click', function() {
+                    const items = this.nextElementSibling;
+                    if (items.style.display === 'none') {
+                        items.style.display = 'block';
+                    } else {
+                        items.style.display = 'none';
+                    }
+                });
+            });
         });
         
         function toggle(element) {
